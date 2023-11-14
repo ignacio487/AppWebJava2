@@ -40,10 +40,11 @@ public class Usuario {
     public void setRut(String rut) {
         this.rut = rut;
     }
+
     public boolean registrarUsuario(){
         Connection connection= DBConnector.connection("usuario","root","");
         DSLContext query= DSL.using(connection);
         System.out.println("a");
-        return new UsuarioDAO().registrarUsuario(query,this);
+        return new UsuarioDAO().registrarUsuario(this, query);
     }
 }

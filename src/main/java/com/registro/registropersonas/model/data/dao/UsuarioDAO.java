@@ -5,11 +5,14 @@ import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Table;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.jooq.impl.DSL.name;
 import static org.jooq.impl.DSL.table;
 
 public class UsuarioDAO {
-    public boolean registrarUsuario(DSLContext query, Usuario usuario){
+    public boolean registrarUsuario (Usuario usuario, DSLContext query){
         String nombre=usuario.getNombre();
         int edad=usuario.getEdad();
         String rut=usuario.getRut();
@@ -24,16 +27,17 @@ public class UsuarioDAO {
             results = query.insertInto(usuarioTabla, columnas[0], columnas[1], columnas[2])
                     .values(nombre, edad, rut)
                     .execute();
-            // Código adicional a realizar en caso de éxito en la realizacion de la consulta
-
         } catch (Exception e) {
-            // Manejo de la excepción ocurrida durante la realizacion de la consulta
 
-            // Por ejemplo, imprimir el mensaje de error
             System.err.println("Error al ejecutar la consulta: " + e.getMessage());
-
-            // O realizar alguna otra acción en caso de error
         }
         return results==1;
+    }
+    List<Usuario> listaUsuarios = obtenerListaUsuarios();
+    private List<Usuario> obtenerListaUsuarios() {
+        List<Usuario> listaUsuarios = new ArrayList<>();
+        listaUsuarios.add(new Usuario("Juan", 25, "123456789"));
+        listaUsuarios.add(new Usuario("María", 30, "987654321"));
+        return listaUsuarios;
     }
 }
